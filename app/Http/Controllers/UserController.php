@@ -15,7 +15,6 @@ class UserController extends Controller
             'email' => 'required|unique:users|email',
             'password' => 'required|min:6',
             'school' => 'required',
-            'photo' => 'mimes:png,jpg|max:1024'
         ]);
 
         $name = $request->input('name');
@@ -23,13 +22,28 @@ class UserController extends Controller
         $password = $request->input('password');
         $hashPassword = Hash::make($password);
         $school = $request->input('school');
-        $photo = $request->input('photo');
 
         $user = User::create([
             'name' => $name,
             'email' => $email,
             'password' => $hashPassword,
             'school' => $school,
+        ]);
+
+        return response()->json(['message' => 'Success'], 201);
+    }
+
+    public function updatePhoto(Request $request)
+    {
+        $this->validate($request, [
+            'photo' => 'mimes:png,jpg|max:1024'
+        ]);
+
+        $photo = $request->input('photo');
+        $token = $request->input('token');
+
+        $user = User::where('token', $token)->first();
+        $user->update([
             'photo' => $photo
         ]);
 
@@ -48,12 +62,12 @@ class UserController extends Controller
 
         $user = User::where('email', $email)->first();
         if (!$user) {
-            return response()->json(['message' => 'login failed'], 401);
+            return response()->json(['message' => 'Email salah, pastikan email anda sudah benar!'], 401);
         }
 
         $isValidPassword = Hash::check($password, $user->password);
         if (!$isValidPassword) {
-            return response()->json(['message' => 'login failed'], 401);
+            return response()->json(['message' => 'Password salah, pastikan password anda sudah benar!'], 401);
         }
 
         $generateToken = bin2hex(random_bytes(40));
