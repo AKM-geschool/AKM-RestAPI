@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 /** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
@@ -17,6 +19,11 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->post('api/register', 'UserController@register');
-$router->post('api/login', 'UserController@login');
+//AuthController
+$router->post('api/register', 'AuthController@register');
+$router->post('api/login', 'AuthController@login');
+$router->post('api/logout', 'AuthController@logout');
+
+//UserController
+$router->get('api/user', 'UserController@index');
 $router->post('api/updatePhoto', 'UserController@updatePhoto');
