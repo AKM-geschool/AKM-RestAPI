@@ -57,7 +57,7 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         // $generateToken = bin2hex(random_bytes(40));
-        $token = auth()->attempt($credentials);
+        $token = auth()->setTTL(300)->attempt($credentials);
         $user->update([
             'token' => $token
         ]);
@@ -65,7 +65,7 @@ class AuthController extends Controller
         return response()->json([
             'success' => true,
             'user' => auth()->user(),
-            'token' => $token
+            'expires_in' => auth()->factory()->getTTL()
         ], 201);
     }
 
