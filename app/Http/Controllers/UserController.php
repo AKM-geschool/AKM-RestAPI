@@ -20,7 +20,9 @@ class UserController extends Controller
     public function index()
     {
         $user = User::all();
-        return response()->json($user);
+        return response()->json([
+            'user' => $user,
+        ]);
     }
 
     public function updatePhoto(Request $request)
