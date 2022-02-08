@@ -27,3 +27,6 @@ $router->post('api/logout', 'AuthController@logout');
 //UserController
 $router->get('api/user', 'UserController@index');
 $router->post('api/updatePhoto', 'UserController@updatePhoto');
+
+//Pdf2imgController
+$router->get('pdf2img', 'Pdf2imgController@index');

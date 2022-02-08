@@ -14,6 +14,14 @@
 $app = require __DIR__.'/../bootstrap/app.php';
 
 /*
+| Bind new public path
+*/
+
+$app->bind('path.public', function () {
+    return __DIR__;
+});
+
+/*
 |--------------------------------------------------------------------------
 | Run The Application
 |--------------------------------------------------------------------------
